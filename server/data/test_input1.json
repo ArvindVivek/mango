@@ -1,0 +1,5 @@
+{
+    "query.cond": "lung cancer",
+    "query.patient": "age:45 || gender:male",
+    "filter.overallStatus": ["RECRUITING"]
+}
