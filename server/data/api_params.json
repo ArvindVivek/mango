@@ -1,7 +1,5 @@
 {
-  "query.cond": "breast cancer",
-  "query.patient": "30-year-old female",
-  "filter.geo": "distance(37.7749,-122.4194,2500mi)",
+  "query.cond": "Friedreich's Ataxia",
   "filter.overallStatus": [
     "RECRUITING"
   ]

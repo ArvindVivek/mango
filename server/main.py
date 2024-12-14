@@ -5,9 +5,12 @@ from pydantic import BaseModel
 import uvicorn
 from pprint import pprint
 import json
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 
 import clinical_trials
 import input_parser
+import rag_study_chat
 
 app = FastAPI()
 app.debug = True
@@ -29,6 +32,7 @@ def get_test():
 
 @app.get("/api/search-studies")
 def search_studies(input: str):
+    print(input)
     api_params_json = input_parser.generate_clinical_trial_params(input)
     clinical_trials_results = clinical_trials.fetch_clinical_trials(api_params_json)
 

@@ -14,7 +14,7 @@ load_dotenv()
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
 # Load JSON data
-json_file_path = "data/clinical_trials_results.json"
+json_file_path = "data/demo/clinical_trials_results.json"
 with open(json_file_path, "r") as file:
     data = json.load(file)
 
@@ -78,7 +78,13 @@ agent = initialize_agent(
     verbose=True
 )
 
-# Example query
-query = "What is the study titled 'Cardiometabolic Screening Program' about?"
-result = agent.run(query)
-print(f"Query: {query}\nResult: {result}")
+def run(query):
+    # Run the agent with the query
+    result = agent.run(query)
+    return result
+
+if __name__ == "__main__":
+    # Example query
+    query = "What is the study Friedreich's Ataxia about?"
+    result = agent.run(query)
+    print(f"Query: {query}\nResult: {result}")

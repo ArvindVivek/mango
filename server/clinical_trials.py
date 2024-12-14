@@ -40,11 +40,11 @@ def fetch_clinical_trials(api_params):
     return all_results
 
 if __name__ == "__main__":
-    with open(os.path.join("data", "test_input2.json"), "r") as file:
+    with open(os.path.join("data", "demo/input.json"), "r") as file:
         patient_input = json.load(file)
     
     api_params = {key: value for key, value in patient_input.items() if value is not None}
-    api_params["filter.overallStatus"] = patient_input.get("filter.overallStatus", ["RECRUITING"])
+    api_params["filter.overallStatus"] = ["RECRUITING"]
 
     results = fetch_clinical_trials(api_params)
     
