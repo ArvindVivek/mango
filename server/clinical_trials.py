@@ -22,8 +22,6 @@ def fetch_clinical_trials(api_params):
     }
     # Make the API call
     #response = requests.get(CLINICAL_TRIALS_API_URL, params=params)
-    # match this url: https://clinicaltrials.gov/api/v2/studies?query.cond=friedreich%27s+ataxia&filter.overallStatus=AVAILABLE%7CRECRUITING" \
-    print("api_params['query.cond']:", api_params['query.cond'])
     query_cond_formatted = api_params['query.cond'].replace(" ", "+").replace("'", "%27")
     new_url = f"{CLINICAL_TRIALS_API_URL}?query.cond={query_cond_formatted}&filter.overallStatus=AVAILABLE%7CRECRUITING"
     response = requests.get(new_url)
