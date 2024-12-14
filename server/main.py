@@ -4,8 +4,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uvicorn
 from pprint import pprint
-
 import json
+
+import clinical_trials
+import input_parser
 
 app = FastAPI()
 app.debug = True
@@ -27,7 +29,8 @@ def get_test():
 
 @app.post("/api/search-studies")
 def search_studies(input: str):
-    return "search studies"
+    api_params_json = input_parser.generate_clinical_trial_params(input)
+    clinical_trials_results = clinical_trials.fetch_clinical_trials(api_params_json)
 
 def my_middleware(app):
     def middleware(environ, start_response):
