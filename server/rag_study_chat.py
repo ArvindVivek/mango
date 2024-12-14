@@ -14,9 +14,30 @@ load_dotenv()
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
 # Load JSON data
-json_file_path = "data/demo/clinical_trials_results.json"
-with open(json_file_path, "r") as file:
-    data = json.load(file)
+# json_file_path = "data/demo/clinical_trials_results.json"
+# with open(json_file_path, "r") as file:
+#     data = json.load(file)
+
+# Sample Data
+data = [
+    {
+        "protocolSection": {
+            "identificationModule": {
+                "nctId": "NCT00000000",
+                "briefTitle": "Study Title 1"
+            },
+            "descriptionModule": {
+                "detailedDescription": "Detailed description of the study."
+            },
+            "eligibilityModule": {
+                "eligibilityCriteria": "Inclusion and exclusion criteria."
+            },
+            "conditionsModule": {
+                "conditions": ["Condition 1", "Condition 2"]
+            }
+        }
+    },
+]
 
 # Preprocess the JSON data into LangChain documents
 def preprocess_clinical_studies(data):

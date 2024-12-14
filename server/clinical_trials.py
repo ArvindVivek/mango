@@ -14,28 +14,33 @@ def fetch_clinical_trials(api_params):
     if 'fields' in api_params and isinstance(api_params['fields'], list):
         api_params['fields'] = ','.join(api_params['fields'])
 
-    while True:
-        # Prepare API request parameters
-        params = {
-            **api_params,
-            'pageToken': next_page_token  # Set the token for the next page
-        }
-        # Make the API call
-        response = requests.get(CLINICAL_TRIALS_API_URL, params=params)
+    # while True:
+    # Prepare API request parameters
+    params = {
+        **api_params,
+        'pageToken': next_page_token  # Set the token for the next page
+    }
+    # Make the API call
+    #response = requests.get(CLINICAL_TRIALS_API_URL, params=params)
+    # match this url: https://clinicaltrials.gov/api/v2/studies?query.cond=friedreich%27s+ataxia&filter.overallStatus=AVAILABLE%7CRECRUITING" \
+    print("api_params['query.cond']:", api_params['query.cond'])
+    query_cond_formatted = api_params['query.cond'].replace(" ", "+").replace("'", "%27")
+    new_url = f"{CLINICAL_TRIALS_API_URL}?query.cond={query_cond_formatted}&filter.overallStatus=AVAILABLE%7CRECRUITING"
+    response = requests.get(new_url)
 
-        # Check for errors in the response
-        if response.status_code != 200:
-            raise Exception(f"API request failed with status code {response.status_code}: {response.text}")
+    # Check for errors in the response
+    if response.status_code != 200:
+        raise Exception(f"API request failed with status code {response.status_code}: {response.text}")
 
-        # Parse the JSON response
-        response_data = response.json()
-        studies = response_data.get("studies", [])
-        all_results.extend(studies)
+    # Parse the JSON response
+    response_data = response.json()
+    studies = response_data.get("studies", [])
+    all_results.extend(studies)
 
         # Check if there's a next page token
-        next_page_token = response_data.get("nextPageToken")
-        if not next_page_token:
-            break
+        # next_page_token = response_data.get("nextPageToken")
+        # if not next_page_token:
+        #     break
 
     return all_results
 
@@ -44,7 +49,9 @@ if __name__ == "__main__":
         patient_input = json.load(file)
     
     api_params = {key: value for key, value in patient_input.items() if value is not None}
-    api_params["filter.overallStatus"] = ["RECRUITING"]
+    api_params["filter.overallStatus"] = ["RECRUITING", "AVAILABLE"]
+    api_params["postFilter.overallStatus"] = ["RECRUITING", "AVAILABLE"]
+
 
     results = fetch_clinical_trials(api_params)
     
