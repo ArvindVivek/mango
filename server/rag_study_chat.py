@@ -9,12 +9,6 @@ from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.agents import Tool, initialize_agent, AgentType
 
-from phoenix.otel import register
-from openinference.instrumentation.langchain import LangChainInstrumentor
-
-tracer_provider = register()
-LangChainInstrumentor().instrument(tracer_provider=tracer_provider)
-
 # Load environment variables (for OpenAI API key)
 load_dotenv()
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
