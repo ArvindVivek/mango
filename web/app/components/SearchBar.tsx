@@ -4,14 +4,27 @@ import { useRef, useState } from "react";
 import { useSearchContext } from "../context/SearchContext";
 
 export const SearchBar = () => {
-  const { searchQuery, setSearchQuery, setIsSearching } = useSearchContext();
+  const { searchQuery, setSearchQuery, setIsSearching, setResults } =
+    useSearchContext();
   const [focused, setFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const handleSearch = () => {
+  const handleSearch = async () => {
     setIsSearching(true);
     inputRef.current?.blur();
-    console.log("Searching for:", searchQuery);
-    // setIsSearching(false);
+    try {
+      const data = await fetch(
+        `https://clinicaltrialsapi.cancer.gov/v1/clinical-trials?size=10&from
+        =0
+        &_fulltext=${searchQuery}`
+      );
+      const response = await data.json();
+      console.log("response", response);
+      // setResults(response.trials);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSearching(false);
+    }
   };
   return (
     <motion.div
