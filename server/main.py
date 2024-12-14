@@ -27,10 +27,12 @@ def ping():
 def get_test():
     return "get test"
 
-@app.post("/api/search-studies")
+@app.get("/api/search-studies")
 def search_studies(input: str):
     api_params_json = input_parser.generate_clinical_trial_params(input)
     clinical_trials_results = clinical_trials.fetch_clinical_trials(api_params_json)
+
+    return clinical_trials_results
 
 def my_middleware(app):
     def middleware(environ, start_response):
